@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		242198B41FD470F100B1E871 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242198B31FD470F100B1E871 /* AppDelegate.swift */; };
-		242198B61FD470F100B1E871 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242198B51FD470F100B1E871 /* ViewController.swift */; };
 		242198B91FD470F100B1E871 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242198B71FD470F100B1E871 /* Main.storyboard */; };
 		242198BB1FD470F100B1E871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 242198BA1FD470F100B1E871 /* Assets.xcassets */; };
 		242198BE1FD470F100B1E871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242198BC1FD470F100B1E871 /* LaunchScreen.storyboard */; };
@@ -49,7 +48,6 @@
 /* Begin PBXFileReference section */
 		242198B01FD470F100B1E871 /* QuadTreeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuadTreeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		242198B31FD470F100B1E871 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		242198B51FD470F100B1E871 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		242198B81FD470F100B1E871 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		242198BA1FD470F100B1E871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		242198BD1FD470F100B1E871 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				242198B31FD470F100B1E871 /* AppDelegate.swift */,
-				242198B51FD470F100B1E871 /* ViewController.swift */,
 				242198B71FD470F100B1E871 /* Main.storyboard */,
 				24997E3A1FD4788200E45DF8 /* QuadTreeView.swift */,
 				242198BA1FD470F100B1E871 /* Assets.xcassets */,
@@ -331,7 +328,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				242198B61FD470F100B1E871 /* ViewController.swift in Sources */,
 				242198B41FD470F100B1E871 /* AppDelegate.swift in Sources */,
 				24997E3B1FD4788200E45DF8 /* QuadTreeView.swift in Sources */,
 			);

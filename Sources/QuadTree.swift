@@ -17,12 +17,12 @@ public class QuadTree<T> {
     
     private(set) var node: QuadTreeNode<T>?
     
-    public let minimumSize: CGSize
+    public let minimumSubQuadSize: CGSize?
     public let bounds: CGRect
     
-    public init(bounds: CGRect, minimumSize: CGSize) {
+    public init(bounds: CGRect, minimumSubQuadSize: CGSize? = nil) {
         self.bounds = bounds
-        self.minimumSize = minimumSize
+        self.minimumSubQuadSize = minimumSubQuadSize
     }
     
     public var isEmpty: Bool {
@@ -30,7 +30,10 @@ public class QuadTree<T> {
     }
     
     func canSubdevide() -> Bool {
-        return bounds.size.width / 2 >= minimumSize.width && bounds.size.height / 2 >= minimumSize.height
+        guard let minimumSubQuadSize = minimumSubQuadSize else {
+            return true
+        }
+        return bounds.size.width / 2 >= minimumSubQuadSize.width && bounds.size.height / 2 >= minimumSubQuadSize.height
     }
     
     private func uniqueLeaves(from leaves: [(point: CGPoint, object: T)]) -> [(point: CGPoint, object: T)] {
@@ -66,10 +69,10 @@ public class QuadTree<T> {
                 return
             }
             
-            let northWest = QuadTree(bounds: bounds.northWestRect, minimumSize: minimumSize)
-            let northEast = QuadTree(bounds: bounds.northEastRect, minimumSize: minimumSize)
-            let southWest = QuadTree(bounds: bounds.southWestRect, minimumSize: minimumSize)
-            let southEast = QuadTree(bounds: bounds.southEastRect, minimumSize: minimumSize)
+            let northWest = QuadTree(bounds: bounds.northWestRect, minimumSubQuadSize: minimumSubQuadSize)
+            let northEast = QuadTree(bounds: bounds.northEastRect, minimumSubQuadSize: minimumSubQuadSize)
+            let southWest = QuadTree(bounds: bounds.southWestRect, minimumSubQuadSize: minimumSubQuadSize)
+            let southEast = QuadTree(bounds: bounds.southEastRect, minimumSubQuadSize: minimumSubQuadSize)
             
             self.node = .children(northWest: northWest, northEast: northEast, southWest: southWest, southEast: southEast)
             

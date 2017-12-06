@@ -11,24 +11,37 @@ import QuadTree
 
 class QuadTreeView: UIView {
     
-    var quadTree: QuadTree<String>!
-    static let circleDiameter: CGFloat = 4
-    let minimumSize = CGSize(width: circleDiameter, height: circleDiameter)
-
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-
-        quadTree = QuadTree<String>(bounds: bounds, minimumSize: minimumSize)
+    private struct Constants {
+        static let circleDiameter: CGFloat = 4
+        static let minimumSubQuadSize = CGSize(width: circleDiameter, height: circleDiameter)
     }
+    
+    private let instructionsLabel = UILabel(frame: CGRect())
+    private var quadTree: QuadTree<String>!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didRecognized(tapGesture:)))
         addGestureRecognizer(tapGesture)
+        
+        setupInstructionsLabel()
     }
 
+    private func setupInstructionsLabel() {
+        addSubview(instructionsLabel)
+        instructionsLabel.translatesAutoresizingMaskIntoConstraints = false
+        instructionsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        instructionsLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        instructionsLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        instructionsLabel.text = "Tap somewhere to add a point"
+        instructionsLabel.textAlignment = .center
+        instructionsLabel.backgroundColor = UIColor(red: 94 / 255, green: 94 / 255, blue: 94 / 255, alpha: 1)
+        instructionsLabel.textColor = .white
+    }
+    
     @objc func didRecognized(tapGesture: UITapGestureRecognizer) {
+        instructionsLabel.isHidden = true
         quadTree.add(point: tapGesture.location(in: self), object: "hello")
         setNeedsDisplay()
     }
@@ -36,12 +49,18 @@ class QuadTreeView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        if quadTree.bounds != bounds {
-            let leaves = quadTree.leaves()
-            quadTree = QuadTree(bounds: bounds, minimumSize: minimumSize)
-            for leaf in leaves {
-                quadTree.add(point: leaf.point, object: leaf.object)
-            }
+        if quadTree?.bounds != bounds {
+            rebuildQuadTree()
+            
+            setNeedsDisplay()
+        }
+    }
+    
+    private func rebuildQuadTree() {
+        let leaves = quadTree?.leaves() ?? []
+        quadTree = QuadTree(bounds: bounds, minimumSubQuadSize: Constants.minimumSubQuadSize)
+        for leaf in leaves {
+            quadTree.add(point: leaf.point, object: leaf.object)
         }
     }
 
@@ -59,7 +78,7 @@ class QuadTreeView: UIView {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         context.beginPath()
 
-        let radius = QuadTreeView.circleDiameter / 2
+        let radius = Constants.circleDiameter / 2
         let endAngle: CGFloat = CGFloat(2 * Double.pi)
 
         context.addArc(center: centerPoint, radius: radius, startAngle: 0, endAngle: endAngle, clockwise: true)
@@ -69,8 +88,8 @@ class QuadTreeView: UIView {
 
 
     override func draw(_ rect: CGRect) {
-        quadTree.traverse { (point, bounds) in
-            if let centerPoint = point?.point {
+        quadTree.traverse { (leaf, bounds) in
+            if let centerPoint = leaf?.point {
                 self.drawCircle(centerPoint: centerPoint)
             }
             self.drawRectangle(rect: bounds)
