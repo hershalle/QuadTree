@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.name         = "QuadTree"
-  s.version      = "1.0.0"
+  s.version      = "1.1.0"
   s.summary      = "A Swift implementation of QuadTree."
   s.description  = <<-DESC
   A QuadTree writen in Swift with an Easy API. Can work with any object type.

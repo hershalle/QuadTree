@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum QuadTreeNode<T> {
+public enum QuadTreeNode<T> {
     case leaf(point: CGPoint, object: T)
     indirect case children(northWest: QuadTree<T>, northEast: QuadTree<T>, southWest: QuadTree<T>, southEast: QuadTree<T>)
 }
@@ -100,7 +100,29 @@ public class QuadTree<T> {
         }
     }
     
-    public func traverse(action: (_ leaf: (point: CGPoint, object: T)?, _ bounds: CGRect) -> ()) {
+    public func traverseNodes(action: (_ node: QuadTreeNode<T>) -> (Bool)) {
+        guard let node = node else {
+            return
+        }
+        
+        let shouldContinue = action(node)
+        
+        guard shouldContinue else {
+            return
+        }
+        
+        switch node {
+        case .leaf(_, _):
+            return
+            case .children(let northWest, let northEast, let southWest, let southEast):
+            northWest.traverseNodes(action: action)
+            northEast.traverseNodes(action: action)
+            southWest.traverseNodes(action: action)
+            southEast.traverseNodes(action: action)
+        }
+    }
+    
+    public func traverseLeaves(action: (_ leaf: (point: CGPoint, object: T)?, _ containedInBounds: CGRect) -> ()) {
         guard let node = node else {
             action(nil, bounds)
             return
@@ -110,10 +132,10 @@ public class QuadTree<T> {
         case .leaf(let point, let object):
             action((point: point, object: object), bounds)
         case .children(northWest: let northWest, northEast: let northEast, southWest: let southWest, southEast: let southEast):
-            northWest.traverse(action: action)
-            northEast.traverse(action: action)
-            southWest.traverse(action: action)
-            southEast.traverse(action: action)
+            northWest.traverseLeaves(action: action)
+            northEast.traverseLeaves(action: action)
+            southWest.traverseLeaves(action: action)
+            southEast.traverseLeaves(action: action)
         }
     }
 }

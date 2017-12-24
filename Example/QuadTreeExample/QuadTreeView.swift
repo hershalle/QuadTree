@@ -65,8 +65,9 @@ class QuadTreeView: UIView {
     }
 
     private func drawRectangle(rect: CGRect) {
-
-        guard let context = UIGraphicsGetCurrentContext() else { return }
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
 
         context.addRect(rect)
         context.setLineWidth(1)
@@ -75,7 +76,10 @@ class QuadTreeView: UIView {
     }
 
     private func drawCircle(centerPoint: CGPoint) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
+        
         context.beginPath()
 
         let radius = Constants.circleDiameter / 2
@@ -86,13 +90,12 @@ class QuadTreeView: UIView {
         context.fillPath()
     }
 
-
     override func draw(_ rect: CGRect) {
-        quadTree.traverse { (leaf, bounds) in
+        quadTree.traverseLeaves { (leaf, containedInBounds) in
             if let centerPoint = leaf?.point {
                 self.drawCircle(centerPoint: centerPoint)
             }
-            self.drawRectangle(rect: bounds)
+            self.drawRectangle(rect: containedInBounds)
         }
     }
 }
