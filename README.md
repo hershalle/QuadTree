@@ -29,9 +29,6 @@ Then, run the following command:
 $ pod install
 ```
 
-### Manual
-// TODO: use alamofire
-
 ## Usage
 
 ### Construct an empty tree
